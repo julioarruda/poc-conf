@@ -1,5 +1,4 @@
 # poc-conf
 <!-- JANEIRO:START -->
-OLA MUNDO
-OLA MUNDO
+
 <!-- JANEIRO:END -->
