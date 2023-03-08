@@ -20,11 +20,27 @@ jobs:
         with:
           body: ${{ env.ISSUE_BODY }}
       
-      - run: |
+      - name: transformar dados
+        id: transform
+        run: |
           evento=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .evento.text | sed 's/"//g')
           site=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .site.text | sed 's/"//g')
           tipo=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .tipo.text | sed 's/"//g')
           local=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .local.text | sed 's/"//g')
           mes=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .mes.text | sed 's/"//g')
           dia=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .dia.text | sed 's/"//g')
-           echo "$mes - $dia - $evento - $site - $tipo - $local"
+          
+          echo "evento=$evento" >> $GITHUB_ENV
+          echo "site=$site" >> $GITHUB_ENV
+          echo "tipo=$tipo" >> $GITHUB_ENV
+          echo "local=$local" >> $GITHUB_ENV
+          echo "mes=$mes" >> $GITHUB_ENV
+          echo "dia=$dia" >> $GITHUB_ENV
+
+      - name: Atualizar README.md
+        run: |
+          linha=$(cat README.md | grep -n "${{ steps.transform.outputs.mes }}:END" | cut -d: -f1)
+
+          dadosevento= "- ${{ steps.transform.outputs.dia }} [${{ steps.transform.outputs.evento }}](${{ steps.transform.outputs.site }})  - ${{ steps.transform.outputs.local }} - ${{ steps.transform.outputs.tipo }}"
+          echo $dadosevento - $linha
+          
