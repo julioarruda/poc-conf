@@ -1,0 +1,23 @@
+name: Agendamento de Evento
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  agendar-evento:
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_BODY: "${{ github.event.issue.body }}"
+    if: contains(github.event.issue.title, '[Evento]:')    
+    steps:
+      - name: Agendar Evento
+        uses: actions/checkout@v3
+
+      - name: Issue Forms Body Parser
+        id: parse
+        uses: zentered/issue-forms-body-parser@v2.1.1
+        with:
+          body: ${{ env.ISSUE_BODY }}
+      
+      - run: echo "${{ steps.parse.outputs.data }}"
