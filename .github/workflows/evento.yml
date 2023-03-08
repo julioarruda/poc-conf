@@ -30,29 +30,17 @@ jobs:
           mes=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .mes.text | sed 's/"//g')
           dia=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .dia.text | sed 's/"//g')
           
-          echo "$evento"
-          echo "$site"
-          echo "$tipo"
-          echo "$local"
-          echo "$mes"
-          echo "$dia"
-          
-
-          echo "evento=$evento" >> $GITHUB_ENV
-          echo "site=$site" >> $GITHUB_ENV
-          echo "tipo=$tipo" >> $GITHUB_ENV
-          echo "local=$local" >> $GITHUB_ENV
-          echo "mes=$mes" >> $GITHUB_ENV
-          echo "dia=$dia" >> $GITHUB_ENV
+          echo "evento=$evento" >> $GITHUB_OUTPUT
+          echo "site=$site" >> $GITHUB_OUTPUT
+          echo "tipo=$tipo" >> $GITHUB_OUTPUT
+          echo "local=$local" >> $GITHUB_OUTPUT
+          echo "mes=$mes" >> $GITHUB_OUTPUT
+          echo "dia=$dia" >> $GITHUB_OUTPUT
 
       - name: Atualizar README.md
         run: |
-          #linha=$(cat README.md | grep -n "${{ steps.tratamento.outputs.mes }}:END" | cut -d: -f1)
-          echo " ${{ steps.tratamento.outputs.dia }}"
-          echo " ${{ steps.tratamento.outputs.evento }}"
-          echo " ${{ steps.tratamento.outputs.site }}"
-          echo " ${{ steps.tratamento.outputs.local }}"
-          echo " ${{ steps.tratamento.outputs.tipo }}"
+          linha=$(cat README.md | grep -n "${{ steps.tratamento.outputs.mes }}:END" | cut -d: -f1)
           
-          #echo $dadosevento - $linha
+          dadosevento="- ${{ steps.tratamento.outputs.dia }} - [${{ steps.tratamento.outputs.evento }}](${{ steps.tratamento.outputs.site }})  - ${{ steps.tratamento.outputs.local }} - ${{ steps.tratamento.outputs.tipo }}"
+          echo "$dadosevento"
           
