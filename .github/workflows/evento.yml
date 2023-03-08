@@ -20,4 +20,11 @@ jobs:
         with:
           body: ${{ env.ISSUE_BODY }}
       
-      - run: echo "${{ steps.parse.outputs.data }}"
+      - run: |
+          evento=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .evento.text | sed 's/"//g')
+          site=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .site.text | sed 's/"//g')
+          tipo=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .tipo.text | sed 's/"//g')
+          local=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .local.text | sed 's/"//g')
+          mes=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .mes.text | sed 's/"//g')
+          dia=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .dia.text | sed 's/"//g')
+           echo "$mes - $dia - $evento - $site - $tipo - $local"
