@@ -30,6 +30,14 @@ jobs:
           mes=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .mes.text | sed 's/"//g')
           dia=$(echo ${{ toJSON(steps.parse.outputs.data) }} | jq .dia.text | sed 's/"//g')
           
+          echo "$evento"
+          echo "$site"
+          echo "$tipo"
+          echo "$local"
+          echo "$mes"
+          echo "$dia"
+          
+
           echo "evento=$evento" >> $GITHUB_ENV
           echo "site=$site" >> $GITHUB_ENV
           echo "tipo=$tipo" >> $GITHUB_ENV
