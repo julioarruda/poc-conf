@@ -7,6 +7,7 @@
 
 # Fevereiro
 <!-- FEVEREIRO:START -->
+- 10 - [Teste 1](<https://teste.com>)  - São Paulo - ![presencial](https://img.shields.io/static/v1?label=&message=presencial&color=darkblue)
 <!-- FEVEREIRO:END -->
 
 # Março
