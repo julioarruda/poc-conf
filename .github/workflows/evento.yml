@@ -8,7 +8,8 @@ jobs:
   agendar-evento:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    
+      contents: write 
+      issues: write   
     env:
       ISSUE_BODY: "${{ github.event.issue.body }}"
     if: contains(github.event.issue.title, '[Evento]:')    
@@ -61,5 +62,18 @@ jobs:
         with:
           commit_message: "Atualizando README.md"
           commit_options: '--no-verify'
-          commit_user_name: Julio Arruda
-          commit_user_email: julio.arruda@outlook.com
+          commit_user_name: events-bot
+          commit_user_email: events@bot.com
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Evento cadastrado com sucesso!!
+            Obrigado por contribuir com a comunidade!
+            
+      - name: Close Issue
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
